@@ -10,11 +10,50 @@
 ## Git flow
 
 -   git pull
--   solve conflict (nếu xảy ra)
 -   git add .
 -   git commit -m "message"
 -   git push
--   solve conflict (nếu xảy ra) thì lặp lại từ đầu
+-   solve conflict
+
+## Naming Convention
+
+#Naming conventions For All Winforms Control
+
+| Control Type     | Prefix  | Example        |
+| ---------------- | ------- | -------------- |
+| Button           | btn     | btnSubmit      |
+| Label            | lbl     | lblUsername    |
+| TextBox          | txt     | txtFirstName   |
+| DataGridView     | dgv     | dgvStudents    |
+| ComboBox         | cbo     | cboCountry     |
+| ListBox          | lst     | lstItems       |
+| CheckBox         | chk     | chkRememberMe  |
+| RadioButton      | rdo     | rdoMale        |
+| PictureBox       | pic     | picProfile     |
+| DateTimePicker   | dtp     | dtpDOB         |
+| Panel            | pnl     | pnlMain        |
+| GroupBox         | grp     | grpOptions     |
+| TabControl       | tab     | tabMain        |
+| TabPage          | tabPage | tabPageGeneral |
+| MenuStrip        | mnu     | mnuFile        |
+| ContextMenuStrip | cms     | cmsOptions     |
+| ToolStrip        | ts      | tsMain         |
+| StatusStrip      | sts     | stsMain        |
+
+#Naming conventions for class variables and other elements
+
+| Element         | Prefix/Suffix | Example                     |
+| --------------- | ------------- | --------------------------- |
+| Class Variable  | \_camelCase   | \_firstName, \_lastName     |
+| Private Field   | \_camelCase   | \_age, \_isActivated        |
+| Public Property | CamelCase     | FirstName, LastName         |
+| Constant        | UPPER_CASE    | MAX_LENGTH, PI              |
+| Local Variable  | camelCase     | firstName, lastName         |
+| Method          | PascalCase    | CalculateTotal, PrintReport |
+| Interface       | I_PascalCase  | IShape, IAccount            |
+| Enumeration     | PascalCase    | LogLevel, ErrorCode         |
+| Event           | EventName     | ButtonClicked, FormClosed   |
+| Parameter       | camelCase     | username, itemCount         |
 
 ## **Explain function**
 
