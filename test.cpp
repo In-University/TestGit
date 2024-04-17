@@ -1,2 +1,6 @@
-sgsd55555hsdh
-sgsd344444hsdh
+#include<iostream>
+
+using namespace std;
+int main() {
+    cout << "Hello Word";
+}
