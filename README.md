@@ -32,6 +32,7 @@
 | PictureBox       | pic     | picProfile     |
 | DateTimePicker   | dtp     | dtpDOB         |
 | Panel            | pnl     | pnlMain        |
+| NumericUpDown    | num     | numQuantity    |
 | GroupBox         | grp     | grpOptions     |
 | TabControl       | tab     | tabMain        |
 | TabPage          | tabPage | tabPageGeneral |
