@@ -9,11 +9,55 @@
 
 ## Git flow
 
--   git pull
--   git add .
--   git commit -m "message"
--   git push
--   solve conflict
+## Git Flow
+
+### 1. Get a Task
+
+1. Switch to develop:
+    ```bash
+    git checkout develop
+    git pull origin develop
+    ```
+2. Create feature branch:
+    ```bash
+    git checkout -b feature/new-feature
+    ```
+
+### 2. In Development
+
+-   Loop to add and commit:
+
+    ```bash
+    while true; do
+        git add .
+        git commit -m "Add new feature..."
+
+        git fetch origin
+        git rebase origin/develop
+        if CONFLICT
+            fix conflict
+            git add .
+            git rebase --continue
+    done
+    ```
+
+### 3. Finished
+
+1. Push feature branch:
+    ```bash
+    git push origin feature/new-feature
+    ```
+2. Create Pull Request and wait for review.
+3. Delete local branch:
+    ```bash
+    git branch -d feature/new-feature
+    ```
+
+### WARMING
+
+-   Cấm tuyệt đối dùng --force
+-   Cấm tuyệt đối dùng --force
+-   Cấm tuyệt đối dùng --force
 
 ## Naming Convention
 
