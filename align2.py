@@ -25,7 +25,7 @@ def create_corpus():
     corpus_dir = os.path.expanduser("~/mfa_data/my_corpus/")
     os.makedirs(corpus_dir, exist_ok=True)
     
-    text = "continue"
+    text = "failings"
     tts = gTTS(text=text, lang='en')
     audio_file = os.path.join(corpus_dir, "audio1.wav")
     tts.save(audio_file)
@@ -56,7 +56,8 @@ def run_alignment(corpus_dir, audio_file, lab_file):
         output_file,        # OUTPUT_PATH
         "--single_speaker",
         "--disable_speaker_adaptation",
-        "--clean"
+        "--clean",
+        "--phone_confidence"
     ])
     return output_file
 
@@ -91,6 +92,7 @@ def compare_phonemes(expected, actual):
     actual_filtered = [p for p in actual if p.upper() not in remove_tokens]
 
     s = difflib.SequenceMatcher(None, expected_filtered, actual_filtered)
+    print("Simiarity percent:::::::::", s.ratio() * 100)
     mismatches = []
     for tag, i1, i2, j1, j2 in s.get_opcodes():
         if tag != 'equal':
@@ -120,7 +122,9 @@ def main():
         return
 
     # 5. So sánh phát âm với chuẩn (ví dụ: từ "cat" theo CMU Dictionary: K, AE1, T)
-    expected_phonemes = ["K", "AE1", "T"]
+    # expected_phonemes = ["K", "AE1", "T"]
+    expected_phonemes = ["M", "EY1", "L", "IH0", "NG", "Z"]
+
     print("Âm vị dự kiến:", expected_phonemes)
     
     mismatches = compare_phonemes(expected_phonemes, actual_phonemes)

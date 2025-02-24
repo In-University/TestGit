@@ -1,0 +1,50 @@
+{
+  "added_tokens_decoder": {
+    "0": {
+      "content": "<pad>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "1": {
+      "content": "<s>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "2": {
+      "content": "</s>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "3": {
+      "content": "<unk>",
+      "lstrip": false,
+      "normalized": true,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    }
+  },
+  "bos_token": "<s>",
+  "clean_up_tokenization_spaces": true,
+  "do_lower_case": false,
+  "do_phonemize": true,
+  "eos_token": "</s>",
+  "model_max_length": 1000000000000000019884624838656,
+  "pad_token": "<pad>",
+  "phone_delimiter_token": " ",
+  "phonemizer_backend": "espeak",
+  "phonemizer_lang": "en-us",
+  "processor_class": "Wav2Vec2Processor",
+  "tokenizer_class": "Wav2Vec2PhonemeCTCTokenizer",
+  "unk_token": "<unk>",
+  "word_delimiter_token": "|"
+}
