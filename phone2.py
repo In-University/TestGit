@@ -13,6 +13,7 @@ os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["HF_DATASETS_OFFLINE"] = "1"
 
 # Load model và processor từ thư mục cục bộ
+# facebook/wav2vec2-xlsr-53-espeak-cv-ft
 processor = Wav2Vec2Processor.from_pretrained("./local_model", local_files_only=True)
 model = Wav2Vec2ForCTC.from_pretrained("./local_model", local_files_only=True)
 model.eval()
@@ -108,6 +109,7 @@ def process_audio_file(file_path):
     transcription = processor.batch_decode(predicted_ids)
     return transcription[0]
 
+
 @app.route('/')
 def index():
     return render_template_string(HTML_TEMPLATE)
@@ -140,6 +142,7 @@ def upload():
     else:
         return "Không nhận được audio."
 
+    # return "hihi"
     # Chuyển từ mục tiêu thành IPA và loại bỏ trọng âm
     target_ipa = ipa.convert(target_word)
     if target_ipa.startswith('*') and target_ipa.endswith('*'):
