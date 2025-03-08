@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 RUN apt-get update && apt-get install -y \
-    libsndfile1 ffmpeg && rm -rf /var/lib/apt/lists/*
+    libsndfile1 ffmpeg espeak && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
