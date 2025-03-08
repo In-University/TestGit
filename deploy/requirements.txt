@@ -1,0 +1,8 @@
+flask
+torch
+librosa
+editdistance
+eng_to_ipa
+torchaudio
+soundfile
+transformers
