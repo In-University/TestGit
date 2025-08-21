@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-multipart
+langchain
+langchain-google-genai
+boto3
+pypdf
+faiss-cpu
+tiktoken
+jinja2
+python-dotenv
+python-docx
+Pillow
+pytesseract
