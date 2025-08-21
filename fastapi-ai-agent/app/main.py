@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware # Import CORSMiddleware
 
 from app.core.config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, GOOGLE_API_KEY 
 from app.services.s3_service import S3Service
@@ -18,6 +19,22 @@ Base.metadata.create_all(bind=engine)
 
 # --- Initialize FastAPI App ---
 app = FastAPI()
+
+# Configure CORS
+origins = [
+    "http://localhost",
+    "http://localhost:3000", # Assuming React app runs on port 3000
+    "http://localhost:8001", # Allow requests from the same origin if testing directly
+    "*" # For development, allow all origins. Restrict this in production.
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(file_upload.router, prefix="/api/v1", tags=["file_upload"])
 
