@@ -9,9 +9,17 @@ from app.core.config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SE
 from app.services.s3_service import S3Service
 from app.services.rag_service import RAGService
 from app.services.generator_service import GeneratorService
+from app.db.database import engine
+from app.models.file_metadata import Base
+from app.api.v1 import file_upload
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 # --- Initialize FastAPI App ---
 app = FastAPI()
+
+app.include_router(file_upload.router, prefix="/api/v1", tags=["file_upload"])
 
 # --- Initialize Services ---
 s3_service = S3Service()
