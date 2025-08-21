@@ -1,6 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
-from ..config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+from app.core.config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 class S3Service:
     def __init__(self):

@@ -3,10 +3,10 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain.chains import RetrievalQA
-from langchain.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
 from PIL import Image
 import pytesseract
-from ..config import GOOGLE_API_KEY
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader
+from app.core.config import GOOGLE_API_KEY
 from langchain.docstore.document import Document
 
 class RAGService:
@@ -14,7 +14,7 @@ class RAGService:
         self.vector_store = None
         self.qa_chain = None
         self.embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
-        self.llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, google_api_key=GOOGLE_API_KEY)
+        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0, google_api_key=GOOGLE_API_KEY)
 
     def process_document(self, file_path: str, file_type: str):
         """Loads a document, splits it into chunks, and creates a RAG chain."""

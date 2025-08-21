@@ -1,13 +1,14 @@
 import os
+import io
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import uvicorn
 
-from .config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, GOOGLE_API_KEY
-from .services.s3_service import S3Service
-from .services.rag_service import RAGService
-from .services.generator_service import GeneratorService
+from app.core.config import S3_BUCKET_NAME, S3_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, GOOGLE_API_KEY 
+from app.services.s3_service import S3Service
+from app.services.rag_service import RAGService
+from app.services.generator_service import GeneratorService
 
 # --- Initialize FastAPI App ---
 app = FastAPI()
@@ -18,7 +19,7 @@ rag_service = RAGService()
 generator_service = None # Will be initialized after document processing
 
 # --- Templates for HTML ---
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 # --- API Endpoints ---
 @app.post("/upload-and-process/")
@@ -26,16 +27,19 @@ async def upload_and_process_file(file: UploadFile = File(...)):
     """
     Handles file upload to S3 and processing for RAG.
     """
+    file_content = await file.read()
+    file_like_object = io.BytesIO(file_content)
+
     # 1. Upload to S3
     try:
-        s3_url = s3_service.upload_file(file.file, file.filename, file.content_type)
+        s3_url = s3_service.upload_file(file_like_object, file.filename, file.content_type)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"S3 upload failed: {e}")
 
     # 2. Save file locally for processing
     temp_file_path = f"/tmp/{file.filename}"
     with open(temp_file_path, "wb") as buffer:
-        buffer.write(await file.read())
+        buffer.write(file_content)
 
     # 3. Process the document for RAG
     if not rag_service.process_document(temp_file_path, file.content_type):
@@ -87,5 +91,6 @@ async def generate_quiz(part: int = Form(...)):
 async def main(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-# --- To run the app ---
-# uvicorn app:app --reload
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8001, reload=True)

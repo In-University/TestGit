@@ -48,17 +48,7 @@ class GeneratorService:
         Provide four distinct answer options (A, B, C, D), only one of which is correct.
         Clearly indicate the correct answer.
 
-        Format the output as a JSON object, like this:
-        {{
-            "question": "What is the main idea of the passage?",
-            "options": {{
-                "A": "Option A text",
-                "B": "Option B text",
-                "C": "Option C text",
-                "D": "Option D text"
-            }},
-            "correct_answer": "B"
-        }}
+        Format the output as a JSON object
         """
         try:
             result = self.qa_chain.run(prompt)
