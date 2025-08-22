@@ -31,14 +31,18 @@
         </div>
 
         <!-- Generation Section -->
-        <div id="generationSection" class="section hidden">
+        <div id="generationSection" class="section">
             <h2>2. Generate Content</h2>
             
             <!-- Flashcards -->
             <form id="flashcardForm">
                 <h3>Generate Flashcards</h3>
-                <label for="topic">Topic:</label>
-                <input type="text" id="topic" name="topic" required>
+                <label for="flashcardTopic">Topic:</label>
+                <input type="text" id="flashcardTopic" name="topic" required><br><br>
+                <label for="flashcardFileIds">File IDs (comma-separated):</label>
+                <input type="text" id="flashcardFileIds" name="file_ids" placeholder="e.g., 1,2,3" required><br><br>
+                <label for="flashcardUserId">User ID:</label>
+                <input type="number" id="flashcardUserId" name="user_id" value="99" required><br><br>
                 <button type="submit">Generate Flashcards</button>
             </form>
             
@@ -47,9 +51,27 @@
             <!-- Quiz -->
             <form id="quizForm">
                 <h3>Generate TOEIC Quiz</h3>
-                <label for="part">TOEIC Part (1-7):</label>
-                <input type="number" id="part" name="part" min="1" max="7" required>
+                <label for="quizPart">TOEIC Part (1-7):</label>
+                <input type="number" id="quizPart" name="part" min="1" max="7" required><br><br>
+                <label for="quizFileIds">File IDs (comma-separated, optional):</label>
+                <input type="text" id="quizFileIds" name="file_ids" placeholder="e.g., 1,2,3"><br><br>
+                <label for="quizUserId">User ID:</label>
+                <input type="number" id="quizUserId" name="user_id" value="99" required><br><br>
                 <button type="submit">Generate Quiz</button>
+            </form>
+
+            <hr>
+
+            <!-- Chat Playground -->
+            <form id="chatForm">
+                <h3>Chat with Document</h3>
+                <label for="chatQuery">Your Question:</label>
+                <input type="text" id="chatQuery" name="query" required><br><br>
+                <label for="chatFileIds">File IDs (comma-separated, optional):</label>
+                <input type="text" id="chatFileIds" name="file_ids" placeholder="e.g., 1,2,3"><br><br>
+                <label for="chatUserId">User ID:</label>
+                <input type="number" id="chatUserId" name="user_id" value="99" required><br><br>
+                <button type="submit">Ask</button>
             </form>
         </div>
 
@@ -66,6 +88,12 @@
         const uploadStatus = document.getElementById('uploadStatus');
         const results = document.getElementById('results');
 
+        // Set default user ID for all forms
+        document.getElementById('userId').value = 99;
+        document.getElementById('flashcardUserId').value = 99;
+        document.getElementById('quizUserId').value = 99;
+        document.getElementById('chatUserId').value = 99;
+
         uploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData();
@@ -76,14 +104,14 @@
             results.textContent = '';
 
             try {
-                const response = await fetch('/api/v1/uploadfile/', { // Use the new endpoint
+                const response = await fetch('/api/v1/uploadfile/', {
                     method: 'POST',
                     body: formData,
                 });
                 const data = await response.json();
                 if (response.ok) {
-                    uploadStatus.textContent = `Success: ${data.message}`;
-                    generationSection.classList.remove('hidden');
+                    uploadStatus.textContent = `Success: File uploaded and processed for user ${document.getElementById('userId').value}.`;
+                    // generationSection.classList.remove('hidden'); // Keep it visible
                 } else {
                     throw new Error(data.detail);
                 }
@@ -92,12 +120,25 @@
             }
         });
 
+        // Helper function to append multiple values for a single form field name
+        function appendListToFormData(formData, fieldName, valueString) {
+            if (valueString) {
+                valueString.split(',').forEach(item => {
+                    formData.append(fieldName, item.trim());
+                });
+            }
+        }
+
         document.getElementById('flashcardForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(e.target);
+            const formData = new FormData();
+            formData.append('topic', document.getElementById('flashcardTopic').value);
+            appendListToFormData(formData, 'file_ids', document.getElementById('flashcardFileIds').value);
+            formData.append('user_id', document.getElementById('flashcardUserId').value);
+
             results.textContent = 'Generating flashcards...';
             try {
-                const response = await fetch('/generate/flashcards/', {
+                const response = await fetch('/api/v1/generate/flashcards/', {
                     method: 'POST',
                     body: formData,
                 });
@@ -114,10 +155,38 @@
 
         document.getElementById('quizForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(e.target);
+            const formData = new FormData();
+            formData.append('part', document.getElementById('quizPart').value);
+            appendListToFormData(formData, 'file_ids', document.getElementById('quizFileIds').value);
+            formData.append('user_id', document.getElementById('quizUserId').value);
+
             results.textContent = 'Generating quiz...';
             try {
-                const response = await fetch('/generate/quiz/', {
+                const response = await fetch('/api/v1/generate/quiz/', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    results.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    throw new Error(data.detail);
+                }
+            } catch (error) {
+                results.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('chatForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('query', document.getElementById('chatQuery').value);
+            appendListToFormData(formData, 'file_ids', document.getElementById('chatFileIds').value);
+            formData.append('user_id', document.getElementById('chatUserId').value);
+
+            results.textContent = 'Asking question...';
+            try {
+                const response = await fetch('/api/v1/chat/', {
                     method: 'POST',
                     body: formData,
                 });

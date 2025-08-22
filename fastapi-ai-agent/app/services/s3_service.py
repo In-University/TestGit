@@ -26,3 +26,12 @@ class S3Service:
             raise Exception(f"S3 upload failed: {e}")
         except Exception as e:
             raise Exception(f"An unexpected error occurred during S3 upload: {e}")
+
+    def download_file(self, filename: str, local_path: str):
+        try:
+            self.s3_client.download_file(S3_BUCKET_NAME, filename, local_path)
+            return local_path
+        except ClientError as e:
+            raise Exception(f"S3 download failed: {e}")
+        except Exception as e:
+            raise Exception(f"An unexpected error occurred during S3 download: {e}")
