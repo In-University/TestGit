@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     systemctl \
  && mkdir /var/run/sshd
 
-RUN echo 'root:123456' | chpasswd
+RUN echo 'root:root' | chpasswd
 
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
