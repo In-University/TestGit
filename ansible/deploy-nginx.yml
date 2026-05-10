@@ -1,0 +1,23 @@
+- hosts: servers
+  become: yes
+
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Copy custom page
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
