@@ -1,8 +1,20 @@
 # RESTAURANT MANAGEMENT !
 =IF(C2<>"",C2 & " - " & D2,LOOKUP(2,1/(C$2:C2<>""),C$2:C2) & " - " & D2)
+
 =IF(C2<>"";C2 & " - " & D2;LOOKUP(2;1/(C$2:C2<>"");C$2:C2) & " - " & D2)
 # Tech Stack
+```shell
+="1. Execute " & C2 & " with " & D2 & " on OLD_HOST333" & CHAR(10) &
+"- Authenticate435 using Cookie in ACCC Sheet as old_session_cookie_valid" & CHAR(10) &
+"- Store response (old_response), status (old_status), latency (old_latency)" & CHAR(10) & CHAR(10) &
+"2. Execute " & C2 & " with same param on step 1 on NEW_HOST999" & CHAR(10) &
+"- Exchange55 the token55 via xxxx to obtain xxxx, then use this cookie345 for the request" & CHAR(10) &
+"- Store response (new_response), status (new_status), latency (new_latency)" & CHAR(10) & CHAR(10) &
+"3. Compare435 HTTP status code, response345 payload, latency between both345 systems."
 
+- Both OLD_HOSTTTT and NEW_HOSTÊ are accessible. 
+- Authentication credentials are defined in the ACCCC Sheet
+```
 -   Architecture: 3-layer
 -   Winform: Guna2 Framework for UI
 -   Library: Google OR Tools
