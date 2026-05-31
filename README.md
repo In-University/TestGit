@@ -1,5 +1,6 @@
 # RESTAURANT MANAGEMENT !
-
+=IF(C2<>"",C2 & " - " & D2,LOOKUP(2,1/(C$2:C2<>""),C$2:C2) & " - " & D2)
+=IF(C2<>"";C2 & " - " & D2;LOOKUP(2;1/(C$2:C2<>"");C$2:C2) & " - " & D2)
 # Tech Stack
 
 -   Architecture: 3-layer
